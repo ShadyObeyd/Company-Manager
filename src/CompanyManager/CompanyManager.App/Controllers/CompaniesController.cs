@@ -45,5 +45,18 @@ namespace CompanyManager.App.Controllers
 
             return this.Redirect(nameof(ViewCompanies));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await this.companyService.CreateCompanyDetailsViewModel(id);
+
+            if (!result.Success)
+            {
+                return this.View("NotFound");
+            }
+
+            return this.View(result.Data);
+        }
     }
 }

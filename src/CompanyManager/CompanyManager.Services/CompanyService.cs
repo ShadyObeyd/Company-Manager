@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CompanyManager.Models.ViewModels.Companies;
 using System.Linq;
 using System.Globalization;
+using CompanyManager.Models.ViewModels.Offices;
 
 namespace CompanyManager.Services
 {
@@ -16,6 +17,8 @@ namespace CompanyManager.Services
         private const string CompanyCreatedSuccessfullyMessage = "Company created successfully";
         private const string CompaniesFoundMessage = "Found all registered companies.";
         private const string DateFormat = "dd.MM.yyyy";
+        private const string CompanyNotFoundMessage = "Company does not exist!";
+        private const string CompanyFoundMessage = "Found the wanted company.";
 
         private readonly ICompanyRepository companyRepository;
 
@@ -55,6 +58,33 @@ namespace CompanyManager.Services
             await this.companyRepository.CreateCompany(company);
 
             return new Result(CompanyCreatedSuccessfullyMessage, true);
+        }
+
+        public async Task<ResultData<DetailsCompanyViewModel>> CreateCompanyDetailsViewModel(int id)
+        {
+            Company company = await this.companyRepository.GetCompanyWithOfficesById(id);
+
+            if (company == null)
+            {
+                return new ResultData<DetailsCompanyViewModel>(CompaniesFoundMessage, false, null);
+            }
+
+            DetailsCompanyViewModel viewModel = new DetailsCompanyViewModel
+            {
+                Id = company.Id,
+                Name = company.Name,
+                CreatedOn = company.CreationDate.ToString(DateFormat, CultureInfo.InvariantCulture),
+                Offices = company.Offices.Select(o => new OfficeCompanyDetailsViewModel
+                {
+                    Id = o.Id,
+                    City = o.City,
+                    Country = o.Country,
+                    Street = o.Street,
+                    StreetNumber = o.StreetNumber
+                })
+            };
+
+            return new ResultData<DetailsCompanyViewModel>(CompaniesFoundMessage, true, viewModel);
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model DetailsCompanyViewModel
+
+<h1 class="text-center">@Model.Name</h1>
+<hr />
+<h5>Created on: @Model.CreatedOn</h5>
+@if (Model.Offices.Count() == 0)
+{
+    <div class="text-center">
+        <h2>Company has no offices yet.</h2>
+        <p>Click <a asp-controller="Offices" asp-action="CreateOffice">here</a> to create a office.</p>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Office Address</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var office in Model.Offices)
+            {
+                <tr>
+                    <td>@office.Address</td>
+                    <td><a class="btn btn-outline-dark" asp-controller="Companies" asp-action="Details" asp-route-id="@office.Id">Visit Office</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

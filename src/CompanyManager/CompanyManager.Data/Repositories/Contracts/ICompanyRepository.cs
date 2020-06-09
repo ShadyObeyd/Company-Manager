@@ -9,5 +9,7 @@ namespace CompanyManager.Data.Repositories.Contracts
         Task<IEnumerable<Company>> GetAllCompaniesWithOffices();
 
         Task CreateCompany(Company company);
+
+        Task<Company> GetCompanyWithOfficesById(int id);
     }
 }

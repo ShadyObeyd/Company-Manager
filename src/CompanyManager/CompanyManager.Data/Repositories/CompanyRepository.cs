@@ -26,5 +26,12 @@ namespace CompanyManager.Data.Repositories
 
             return companies;
         }
+
+        public async Task<Company> GetCompanyWithOfficesById(int id)
+        {
+            Company company = await this.db.Companies.Include(c => c.Offices).FirstOrDefaultAsync(c => c.Id == id);
+
+            return company;
+        }
     }
 }
