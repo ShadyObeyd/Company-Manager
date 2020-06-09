@@ -22,6 +22,7 @@ namespace CompanyManager.Services
         private const string CompanyFoundMessage = "Found the wanted company.";
         private const string CompanyNameUpdatedMessage = "Company name changed.";
         private const string CompanyEditModelCreatedMessage = "Created company edit model.";
+        private const string CompanyDeletedMessage = "Company deleted successfully.";
 
         private readonly ICompanyRepository companyRepository;
 
@@ -45,11 +46,11 @@ namespace CompanyManager.Services
             return new ResultData<IEnumerable<AllCompaniesViewModel>>(CompaniesFoundMessage, true, viewModel);
         }
 
-        public async Task<Result> CreateCompany(string name)
+        public async Task<ResultData<Company>> CreateCompany(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
-                return new Result(EmptyCompanyNameMessage, false);
+                return new ResultData<Company>(EmptyCompanyNameMessage, false, null);
             }
 
             Company company = new Company
@@ -60,7 +61,7 @@ namespace CompanyManager.Services
 
             await this.companyRepository.CreateCompany(company);
 
-            return new Result(CompanyCreatedSuccessfullyMessage, true);
+            return new ResultData<Company>(CompanyCreatedSuccessfullyMessage, true, company);
         }
 
         public async Task<ResultData<DetailsCompanyViewModel>> CreateCompanyDetailsViewModel(int id)
@@ -125,6 +126,20 @@ namespace CompanyManager.Services
             };
 
             return new ResultData<CompanyEditModel>(CompanyEditModelCreatedMessage, true, model);
+        }
+
+        public async Task<Result> DeleteCompany(int id)
+        {
+            Company company = await this.companyRepository.GetCompanyById(id);
+
+            if (company == null)
+            {
+                new Result(CompanyNotFoundMessage, false);
+            }
+
+            await this.companyRepository.DeleteCompany(company);
+
+            return new Result(CompanyDeletedMessage, true);
         }
     }
 }

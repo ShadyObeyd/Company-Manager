@@ -2,6 +2,7 @@
 using CompanyManager.Models.DomainModels;
 using CompanyManager.Models.InputModels.Companies;
 using CompanyManager.Services;
+using CompanyManager.Services.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyManager.App.Controllers
@@ -44,7 +45,7 @@ namespace CompanyManager.App.Controllers
                 return this.View();
             }
 
-            return this.Redirect(nameof(ViewCompanies));
+            return this.RedirectToAction(nameof(Details), new { id = result.Data.Id });
         }
 
         [HttpGet]
@@ -89,6 +90,19 @@ namespace CompanyManager.App.Controllers
             }
 
             return this.RedirectToAction(nameof(Details), new { id = result.Data.Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Result result = await this.companyService.DeleteCompany(id);
+
+            if (!result.Success)
+            {
+                return this.View("NotFound");
+            }
+
+            return this.RedirectToAction(nameof(ViewCompanies));
         }
     }
 }

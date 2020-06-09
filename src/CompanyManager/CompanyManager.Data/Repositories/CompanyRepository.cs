@@ -47,5 +47,11 @@ namespace CompanyManager.Data.Repositories
 
             return company;
         }
+
+        public async Task DeleteCompany(Company company)
+        {
+            this.db.Companies.Remove(company);
+            await this.db.SaveChangesAsync();
+        }
     }
 }

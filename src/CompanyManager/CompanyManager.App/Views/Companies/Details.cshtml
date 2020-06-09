@@ -5,7 +5,11 @@
 <h5>Created on: @Model.CreatedOn</h5>
 <div class="row justify-content-lg-center">
     <div class="col-xl-auto">
-        <a class="btn btn-danger" asp-controller="Companies" asp-action="DeleteCompany" asp-route-id="@Model.Id">Delete Company</a>
+        <form class="form-inline" asp-controller="Companies" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <div>
+                <button type="submit" class="btn btn-danger">Delete Company</button>
+            </div>
+        </form>
     </div>
     <div>
         <a class="btn btn-dark" asp-controller="Companies" asp-action="Edit" asp-route-id="@Model.Id">Edit Company Name</a>
