@@ -1,9 +1,8 @@
-﻿using CompanyManager.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CompanyManager.Models
+namespace CompanyManager.Models.DomainModels
 {
     public class Office
     {

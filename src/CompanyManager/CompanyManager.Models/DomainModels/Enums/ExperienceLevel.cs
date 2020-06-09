@@ -1,4 +1,4 @@
-﻿namespace CompanyManager.Models.Enums
+﻿namespace CompanyManager.Models.DomainModels.Enums
 {
     public enum ExperienceLevel
     {

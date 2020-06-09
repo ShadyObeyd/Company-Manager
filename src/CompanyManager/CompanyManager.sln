@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Data", "Comp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Models", "CompanyManager.Models\CompanyManager.Models.csproj", "{C4B34514-3235-40CF-BB9E-489E1F4862A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Services", "CompanyManager.Services\CompanyManager.Services.csproj", "{8F56A16B-6ADC-4772-AE12-2E4F4E0D1EB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C4B34514-3235-40CF-BB9E-489E1F4862A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4B34514-3235-40CF-BB9E-489E1F4862A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4B34514-3235-40CF-BB9E-489E1F4862A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F56A16B-6ADC-4772-AE12-2E4F4E0D1EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F56A16B-6ADC-4772-AE12-2E4F4E0D1EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F56A16B-6ADC-4772-AE12-2E4F4E0D1EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F56A16B-6ADC-4772-AE12-2E4F4E0D1EB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AllCompaniesViewModel>
+
+<h1 class="text-center">Companies</h1>
+<hr />
+@if (Model.Count() == 0)
+{
+    <div class="text-center">
+        <h2>Currently there are no companies!</h2>
+        <p>Click <a asp-controller="Companies" asp-action="CreateCompany">here</a> to create a company.</p>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Company Name</th>
+                <th scope="col">Date Created</th>
+                <th scope="col">Number of Officess</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var company in Model)
+            {
+                <tr>
+                    <td>@company.Name</td>
+                    <td>@company.CreatedOn</td>
+                    <td>@company.OfficesCount</td>
+                    <td><a class="btn btn-outline-dark" asp-controller="Companies" asp-action="Details" asp-route-id="@company.Id">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<hr />

@@ -13,6 +13,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CompanyManager.Data\CompanyManager.Data.csproj" />
+		<ProjectReference Include="..\CompanyManager.Models\CompanyManager.Models.csproj" />
+		<ProjectReference Include="..\CompanyManager.Services\CompanyManager.Services.csproj" />
 	</ItemGroup>
 
 </Project>

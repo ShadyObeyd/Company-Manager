@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CompanyManager.Models.Enums;
+using CompanyManager.Models.DomainModels.Enums;
 
-namespace CompanyManager.Models
+namespace CompanyManager.Models.DomainModels
 {
     public class Employee
     {

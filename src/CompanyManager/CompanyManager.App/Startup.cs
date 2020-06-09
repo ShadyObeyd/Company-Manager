@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CompanyManager.Data;
 using Microsoft.EntityFrameworkCore;
+using CompanyManager.Services;
+using CompanyManager.Data.Repositories.Contracts;
+using CompanyManager.Data.Repositories;
 
 namespace CompanyManager.App
 {
@@ -17,7 +20,6 @@ namespace CompanyManager.App
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CompanyManagerDbContext>(options =>
@@ -25,9 +27,14 @@ namespace CompanyManager.App
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllersWithViews();
+
+            //Application Repositories
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+            //Application Services
+            services.AddScoped<CompanyService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -37,7 +44,6 @@ namespace CompanyManager.App
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
