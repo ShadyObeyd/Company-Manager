@@ -3,11 +3,20 @@
 <h1 class="text-center">@Model.Name</h1>
 <hr />
 <h5>Created on: @Model.CreatedOn</h5>
+<div class="row justify-content-lg-center">
+    <div class="col-xl-auto">
+        <a class="btn btn-danger" asp-controller="Companies" asp-action="DeleteCompany" asp-route-id="@Model.Id">Delete Company</a>
+    </div>
+    <div>
+        <a class="btn btn-dark" asp-controller="Companies" asp-action="Edit" asp-route-id="@Model.Id">Edit Company Name</a>
+    </div>
+</div>
+<hr />
 @if (Model.Offices.Count() == 0)
 {
     <div class="text-center">
         <h2>Company has no offices yet.</h2>
-        <p>Click <a asp-controller="Offices" asp-action="CreateOffice">here</a> to create a office.</p>
+        <p>Click <a asp-controller="Offices" asp-action="CreateOffice">here</a> to create the HQ.</p>
     </div>
 }
 else
@@ -24,7 +33,7 @@ else
             {
                 <tr>
                     <td>@office.Address</td>
-                    <td><a class="btn btn-outline-dark" asp-controller="Companies" asp-action="Details" asp-route-id="@office.Id">Visit Office</a></td>
+                    <td><a class="btn btn-outline-dark" asp-controller="Offices" asp-action="Details" asp-route-id="@office.Id">Visit Office</a></td>
                 </tr>
             }
         </tbody>

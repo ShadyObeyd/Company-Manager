@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CompanyManager.Models.InputModels
+namespace CompanyManager.Models.InputModels.Companies
 {
     public class CreateCompanyInputModel
     {

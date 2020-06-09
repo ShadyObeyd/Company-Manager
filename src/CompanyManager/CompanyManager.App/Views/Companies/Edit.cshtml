@@ -1,0 +1,18 @@
+﻿@model CompanyEditModel
+
+<h1 class="text-center">Create a Company</h1>
+<hr />
+<form class="mx-auto col-md-6" asp-controller="Companies" asp-action="Edit" method="post">
+    <hr class="hr-style" />
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="Name"></label>
+        </div>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Name..." value="@Model.Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <hr class="hr-style" />
+    <div class="col-12 text-center">
+        <button type="submit" class="btn btn-dark">Edit Company</button>
+    </div>
+</form>

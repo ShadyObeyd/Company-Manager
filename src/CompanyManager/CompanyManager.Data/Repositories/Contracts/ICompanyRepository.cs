@@ -11,5 +11,9 @@ namespace CompanyManager.Data.Repositories.Contracts
         Task CreateCompany(Company company);
 
         Task<Company> GetCompanyWithOfficesById(int id);
+
+        Task EditCompanyName(Company company, string newName);
+
+        Task<Company> GetCompanyById(int id);
     }
 }

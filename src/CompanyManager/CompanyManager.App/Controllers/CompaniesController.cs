@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using CompanyManager.Models.InputModels;
+using CompanyManager.Models.DomainModels;
+using CompanyManager.Models.InputModels.Companies;
 using CompanyManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +58,37 @@ namespace CompanyManager.App.Controllers
             }
 
             return this.View(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var result = await this.companyService.CreateEditModel(id);
+
+            if (!result.Success)
+            {
+                return this.View("NotFound");
+            }
+
+            return this.View(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CompanyEditModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var result = await this.companyService.EditCompanyName(inputModel.Id, inputModel.Name);
+
+            if (!result.Success)
+            {
+                return this.View();
+            }
+
+            return this.RedirectToAction(nameof(Details), new { id = result.Data.Id });
         }
     }
 }

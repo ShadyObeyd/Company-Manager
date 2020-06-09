@@ -8,6 +8,7 @@ using CompanyManager.Models.ViewModels.Companies;
 using System.Linq;
 using System.Globalization;
 using CompanyManager.Models.ViewModels.Offices;
+using CompanyManager.Models.InputModels.Companies;
 
 namespace CompanyManager.Services
 {
@@ -19,6 +20,8 @@ namespace CompanyManager.Services
         private const string DateFormat = "dd.MM.yyyy";
         private const string CompanyNotFoundMessage = "Company does not exist!";
         private const string CompanyFoundMessage = "Found the wanted company.";
+        private const string CompanyNameUpdatedMessage = "Company name changed.";
+        private const string CompanyEditModelCreatedMessage = "Created company edit model.";
 
         private readonly ICompanyRepository companyRepository;
 
@@ -29,9 +32,9 @@ namespace CompanyManager.Services
 
         public async Task<ResultData<IEnumerable<AllCompaniesViewModel>>> CreateAllCompaniesViewModel()
         {
-            IEnumerable<Company> companies = await this.companyRepository.GetAllCompaniesWithOffices();
+            var companies = await this.companyRepository.GetAllCompaniesWithOffices();
 
-            IEnumerable<AllCompaniesViewModel> viewModel = companies.Select(c => new AllCompaniesViewModel
+            var viewModel = companies.Select(c => new AllCompaniesViewModel
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -84,7 +87,44 @@ namespace CompanyManager.Services
                 })
             };
 
-            return new ResultData<DetailsCompanyViewModel>(CompaniesFoundMessage, true, viewModel);
+            return new ResultData<DetailsCompanyViewModel>(CompanyFoundMessage, true, viewModel);
+        }
+
+        public async Task<ResultData<Company>> EditCompanyName(int id, string newName)
+        {
+            if (string.IsNullOrEmpty(newName))
+            {
+                return new ResultData<Company>(EmptyCompanyNameMessage, false, null);
+            }
+
+            Company company = await this.companyRepository.GetCompanyById(id);
+
+            if (company == null)
+            {
+                return new ResultData<Company>(CompanyNotFoundMessage, false, null);
+            }
+
+            await this.companyRepository.EditCompanyName(company, newName);
+
+            return new ResultData<Company>(CompanyNameUpdatedMessage, true, company);
+        }
+
+        public async Task<ResultData<CompanyEditModel>> CreateEditModel(int id)
+        {
+            Company company = await this.companyRepository.GetCompanyById(id);
+
+            if (company == null)
+            {
+                return new ResultData<CompanyEditModel>(CompanyNotFoundMessage, false, null);
+            }
+
+            CompanyEditModel model = new CompanyEditModel
+            {
+                Id = company.Id,
+                Name = company.Name
+            };
+
+            return new ResultData<CompanyEditModel>(CompanyEditModelCreatedMessage, true, model);
         }
     }
 }

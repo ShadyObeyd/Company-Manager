@@ -33,5 +33,19 @@ namespace CompanyManager.Data.Repositories
 
             return company;
         }
+
+        public async Task EditCompanyName(Company company, string newName)
+        {
+            company.Name = newName;
+            this.db.Companies.Update(company);
+            await this.db.SaveChangesAsync();
+        }
+
+        public async Task<Company> GetCompanyById(int id)
+        {
+            Company company = await this.db.Companies.FirstOrDefaultAsync(c => c.Id == id);
+
+            return company;
+        }
     }
 }
