@@ -31,10 +31,12 @@ namespace CompanyManager.App
             //Application Repositories
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             //Application Services
             services.AddScoped<CompanyService>();
             services.AddScoped<OfficeService>();
+            services.AddScoped<EmployeeService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
