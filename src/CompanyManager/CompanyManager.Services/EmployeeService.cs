@@ -1,8 +1,10 @@
 ﻿using CompanyManager.Data.Repositories.Contracts;
 using CompanyManager.Models.DomainModels;
 using CompanyManager.Models.InputModels.Employees;
+using CompanyManager.Models.ViewModels.Employees;
 using CompanyManager.Services.Results;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace CompanyManager.Services
@@ -15,6 +17,9 @@ namespace CompanyManager.Services
         private const string InvalidStartDateMessage = "Starting date must be equal or larger than today!";
         private const string InvalidSalaryMessage = "Salary must be larger than zero!";
         private const string EmployeeAddedMessage = "Employee added successfully.";
+        private const string EmployeeNotFoundMessage = "Employee does not exist!";
+        private const string DateFormat = "dd.MM.yyyy";
+        private const string DetailsViewModelCreatedMessage = "Employee details model created.";
 
         private readonly IEmployeeRepository employeeRepository;
 
@@ -70,6 +75,27 @@ namespace CompanyManager.Services
             await this.employeeRepository.CreateNewEmployee(employee);
 
             return new ResultData<Employee>(EmployeeAddedMessage, true, employee);
+        }
+
+        public async Task<ResultData<EmployeeDetailsViewModel>> CreateDetailsViewModel(int id)
+        {
+            if (id == 0)
+            {
+                return new ResultData<EmployeeDetailsViewModel>(EmployeeNotFoundMessage, false, null);
+            }
+
+            Employee employee = await this.employeeRepository.GetEmployeeById(id);
+
+            EmployeeDetailsViewModel viewModel = new EmployeeDetailsViewModel
+            {
+                FullName = $"{employee.FirstName} {employee.LastName}",
+                ExpLevel = employee.ExperienceLevel.ToString(),
+                Salary = employee.Salary,
+                StartingDate = employee.StartingDate.ToString(DateFormat, CultureInfo.InvariantCulture),
+                Id = employee.Id
+            };
+
+            return new ResultData<EmployeeDetailsViewModel>(DetailsViewModelCreatedMessage, true, viewModel);
         }
     }
 }

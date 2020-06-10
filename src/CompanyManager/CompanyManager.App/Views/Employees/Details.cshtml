@@ -1,5 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model EmployeeDetailsViewModel
+
+<h1 class="text-center">@Model.FullName</h1>
+<hr>
+<h5>Hired on: @Model.StartingDate</h5>
+<h5>Salary: @Model.Salary</h5>
+<h5>Experience Level: @Model.ExpLevel</h5>

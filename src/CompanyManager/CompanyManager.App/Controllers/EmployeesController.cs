@@ -45,5 +45,18 @@ namespace CompanyManager.App.Controllers
             //TODO Change to redirect to details page
             return this.View(inputModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await this.employeeService.CreateDetailsViewModel(id);
+
+            if (!result.Success)
+            {
+                return this.View("NotFound");
+            }
+
+            return this.View(result.Data);
+        }
     }
 }
