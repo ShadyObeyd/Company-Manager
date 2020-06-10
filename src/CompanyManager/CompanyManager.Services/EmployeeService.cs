@@ -22,6 +22,7 @@ namespace CompanyManager.Services
         private const string DetailsViewModelCreatedMessage = "Employee details model created.";
         private const string EmployeeEditModelCreatedMessage = "Employee edit model was created.";
         private const string EmployeeUpdatedMessage = "Employee was updated.";
+        private const string EmployeeDeletedMessage = "Employee was deleted.";
 
         private readonly IEmployeeRepository employeeRepository;
 
@@ -143,6 +144,22 @@ namespace CompanyManager.Services
             await this.employeeRepository.EditEmployee(employee);
 
             return new ResultData<Employee>(EmployeeUpdatedMessage, true, employee);
+        }
+
+        public async Task<ResultData<int>> DeleteEmployee(int id)
+        {
+            if (id == 0)
+            {
+                return new ResultData<int>(EmployeeNotFoundMessage, false, 0);
+            }
+
+            Employee employee = await this.employeeRepository.GetEmployeeById(id);
+
+            int officeId = employee.OfficeId;
+
+            await this.employeeRepository.DeleteEmployee(employee);
+
+            return new ResultData<int>(EmployeeDeletedMessage, true, officeId);
         }
     }
 }
