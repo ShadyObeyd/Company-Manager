@@ -20,11 +20,15 @@
 {
     <div class="text-center">
         <h2>Company has no offices yet.</h2>
-        <p>Click <a asp-controller="Offices" asp-action="CreateOffice">here</a> to create the HQ.</p>
+        <p>Click <a asp-controller="Offices" asp-action="Create" asp-route-companyId="@Model.Id">here</a> to create an office.</p>
     </div>
 }
 else
 {
+    <div class="col-12 text-center">
+        <a class="btn btn-dark" asp-controller="Offices" asp-action="Create" asp-route-companyId="@Model.Id">Create New Office</a>
+    </div>
+    <hr />
     <table class="table">
         <thead class="thead-dark">
             <tr>

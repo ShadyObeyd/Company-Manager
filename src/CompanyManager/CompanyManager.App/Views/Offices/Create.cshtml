@@ -1,0 +1,38 @@
+﻿@model CompanyManager.Models.InputModels.Offices.OfficeInputModel
+
+<h1 class="text-center">Create New Office</h1>
+<hr />
+<form class="mx-auto col-md-6" asp-controller="Offices" asp-action="Create" method="post">
+    <input class="companyId" name="companyId" id="companyId" value="@Model.CompanyId" hidden />
+    <hr class="hr-style" />
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="Country"></label>
+        </div>
+        <input asp-for="Country" type="text" class="form-control" placeholder="Country..." />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="City"></label>
+        </div>
+        <input asp-for="City" type="text" class="form-control" placeholder="City..." />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Street"></label>
+            <input type="text" asp-for="Street" class="form-control" placeholder="Street...">
+            <span asp-validation-for="Street" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="StreetNumber"></label>
+            <input type="number" asp-for="StreetNumber" class="form-control" placeholder="Street Number...">
+            <span asp-validation-for="StreetNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <hr class="hr-style" />
+    <div class="col-12 text-center">
+        <button type="submit" class="btn btn-dark">Create Office</button>
+    </div>
+</form>
