@@ -1,0 +1,25 @@
+﻿@model OfficeDetailsViewModel
+
+@if (Model.IsHeadquarters)
+{
+    <h1 class="text-center">Welcome to our HQ!</h1>
+}
+else
+{
+    <h1 class="text-center">Welcome to our @Model.City office!</h1>
+}
+<hr />
+<h5>Address: @Model.Address</h5>
+<div class="row justify-content-lg-center">
+    <div class="col-xl-auto">
+        <form class="form-inline" asp-controller="Offices" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <div>
+                <button type="submit" class="btn btn-danger">Delete Office</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <a class="btn btn-dark" asp-controller="Offices" asp-action="Edit" asp-route-id="@Model.Id">Edit Office</a>
+    </div>
+</div>
+<hr />
