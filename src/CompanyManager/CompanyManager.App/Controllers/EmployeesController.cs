@@ -42,8 +42,7 @@ namespace CompanyManager.App.Controllers
                 return this.View(inputModel);
             }
 
-            //TODO Change to redirect to details page
-            return this.View(inputModel);
+            return this.RedirectToAction(nameof(Details), new { id = result.Data.Id });
         }
 
         [HttpGet]
@@ -57,6 +56,37 @@ namespace CompanyManager.App.Controllers
             }
 
             return this.View(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var result = await this.employeeService.CreateEmployeeEditModel(id);
+
+            if (!result.Success)
+            {
+                return this.View("Not Found");
+            }
+
+            return this.View(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EmployeeEditModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var result = await this.employeeService.EditEmployee(inputModel);
+
+            if (!result.Success)
+            {
+                return this.View(inputModel);
+            }
+
+            return this.RedirectToAction(nameof(Details), new { id = result.Data.Id });
         }
     }
 }

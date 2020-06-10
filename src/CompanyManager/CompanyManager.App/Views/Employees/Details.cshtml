@@ -5,3 +5,19 @@
 <h5>Hired on: @Model.StartingDate</h5>
 <h5>Salary: @Model.Salary</h5>
 <h5>Experience Level: @Model.ExpLevel</h5>
+<hr />
+<div class="row justify-content-lg-center">
+    <div class="col-xl-auto">
+        <form class="form-inline" asp-controller="Employees" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <div>
+                <button type="submit" class="btn btn-danger">Delete Employee</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-xl-auto">
+        <a class="btn btn-dark" asp-controller="Employees" asp-action="Edit" asp-route-id="@Model.Id">Edit Employee</a>
+    </div>
+    <div>
+        <a class="btn btn-dark" asp-controller="Employees" asp-action="Relocate" asp-route-id="@Model.Id">Relocate Employee</a>
+    </div>
+</div>

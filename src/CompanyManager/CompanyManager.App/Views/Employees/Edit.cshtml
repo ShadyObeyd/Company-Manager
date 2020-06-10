@@ -1,0 +1,43 @@
+﻿@model EmployeeEditModel
+
+<h1 class="text-center">Edit Employee</h1>
+<hr />
+<form class="mx-auto col-md-6" asp-controller="Employees" asp-action="Edit" method="post">
+    <input class="employeeId" name="employeeId" id="employeeId" value="@Model.Id" hidden />
+    <hr class="hr-style" />
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="FirstName"></label>
+        </div>
+        <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name..." />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="LastName"></label>
+        </div>
+        <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name..." />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="Salary"></label>
+        </div>
+        <input asp-for="Salary" type="number" step="0.1" class="form-control" placeholder="Salary..." />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="text-center">
+            <label asp-for="ExperienceLevel"></label>
+        </div>
+        <select asp-for="ExperienceLevel" class="form-control form-control-sm border border-dark">
+            <option>Junior</option>
+            <option>Mid</option>
+            <option>Senior</option>
+        </select>
+    </div>
+    <hr class="hr-style" />
+    <div class="col-12 text-center">
+        <button type="submit" class="btn btn-dark">Add Employee</button>
+    </div>
+</form>

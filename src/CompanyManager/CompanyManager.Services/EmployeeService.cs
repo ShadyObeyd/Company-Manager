@@ -20,6 +20,8 @@ namespace CompanyManager.Services
         private const string EmployeeNotFoundMessage = "Employee does not exist!";
         private const string DateFormat = "dd.MM.yyyy";
         private const string DetailsViewModelCreatedMessage = "Employee details model created.";
+        private const string EmployeeEditModelCreatedMessage = "Employee edit model was created.";
+        private const string EmployeeUpdatedMessage = "Employee was updated.";
 
         private readonly IEmployeeRepository employeeRepository;
 
@@ -96,6 +98,51 @@ namespace CompanyManager.Services
             };
 
             return new ResultData<EmployeeDetailsViewModel>(DetailsViewModelCreatedMessage, true, viewModel);
+        }
+
+        public async Task<ResultData<EmployeeEditModel>> CreateEmployeeEditModel(int id)
+        {
+            Employee employee = await this.employeeRepository.GetEmployeeById(id);
+
+            if (employee == null)
+            {
+                return new ResultData<EmployeeEditModel>(EmployeeNotFoundMessage, false, null);
+            }
+
+            EmployeeEditModel model = new EmployeeEditModel
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                ExperienceLevel = employee.ExperienceLevel,
+                Salary = employee.Salary
+            };
+
+            return new ResultData<EmployeeEditModel>(EmployeeEditModelCreatedMessage, true, model);
+        }
+
+        public async Task<ResultData<Employee>> EditEmployee(EmployeeEditModel inputModel)
+        {
+            if (string.IsNullOrEmpty(inputModel.FirstName) || string.IsNullOrEmpty(inputModel.LastName))
+            {
+                return new ResultData<Employee>(EmployeeNamesNotFoundMessage, false, null);
+            }
+
+            if (inputModel.Salary < 0)
+            {
+                return new ResultData<Employee>(InvalidSalaryMessage, false, null);
+            }
+
+            Employee employee = await this.employeeRepository.GetEmployeeById(inputModel.Id);
+
+            employee.FirstName = inputModel.FirstName;
+            employee.LastName = inputModel.LastName;
+            employee.Salary = inputModel.Salary;
+            employee.ExperienceLevel = inputModel.ExperienceLevel;
+
+            await this.employeeRepository.EditEmployee(employee);
+
+            return new ResultData<Employee>(EmployeeUpdatedMessage, true, employee);
         }
     }
 }
