@@ -18,6 +18,7 @@ namespace CompanyManager.Services
         private const string OfficeDetailsModelCreatedMessage = "Office details view model created successfully!";
         private const string OffceEditModelCreatedMessage = "Office edit model created successfullly!";
         private const string OfficeEditMessage = "Office edited successfully!";
+        private const string OfficeDeletedMessage = "Office was deleted!";
 
         private readonly IOfficeRepository officeRepository;
         private readonly ICompanyRepository companyRepository;
@@ -134,6 +135,22 @@ namespace CompanyManager.Services
             await this.officeRepository.EditOffice(office);
 
             return new ResultData<Office>(OfficeEditMessage, true, office);
+        }
+
+        public async Task<ResultData<int>> DeleteOffice(int id)
+        {
+            if (id == 0)
+            {
+                return new ResultData<int>(OfficeNotFoundMessage, false, 0);
+            }
+
+            Office office = await this.officeRepository.GetOfficeById(id);
+
+            int companyId = office.CompanyId;
+
+            await this.officeRepository.DeleteOffice(office);
+
+            return new ResultData<int>(OfficeDeletedMessage, true, companyId);
         }
     }
 }

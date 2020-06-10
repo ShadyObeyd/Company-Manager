@@ -12,5 +12,7 @@ namespace CompanyManager.Data.Repositories.Contracts
         Task<Office> GetOfficeById(int id);
 
         Task EditOffice(Office office);
+
+        Task DeleteOffice(Office office);
     }
 }

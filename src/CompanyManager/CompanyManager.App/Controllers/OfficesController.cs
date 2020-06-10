@@ -89,5 +89,18 @@ namespace CompanyManager.App.Controllers
 
             return this.RedirectToAction(nameof(Details), new { id = result.Data.Id });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await this.officeService.DeleteOffice(id);
+
+            if (!result.Success)
+            {
+                return this.View("NotFound");
+            }
+
+            return this.RedirectToAction("Details", "Companies", new { id = result.Data });
+        }
     }
 }

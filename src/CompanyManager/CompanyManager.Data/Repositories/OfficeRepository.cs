@@ -39,5 +39,11 @@ namespace CompanyManager.Data.Repositories
             this.db.Offices.Update(office);
             await this.db.SaveChangesAsync();
         }
+
+        public async Task DeleteOffice(Office office)
+        {
+            this.db.Offices.Remove(office);
+            await this.db.SaveChangesAsync();
+        }
     }
 }
