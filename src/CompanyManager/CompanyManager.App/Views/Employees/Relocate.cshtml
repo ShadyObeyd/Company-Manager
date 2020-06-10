@@ -1,0 +1,21 @@
+﻿@model EmployeeRelocateModel
+
+<h1 class="text-center">Relocate @Model.FullName</h1>
+<form class="mx-auto col-md-6" asp-controller="Employees" asp-action="Relocate" method="post">
+    <hr class="hr-style" />
+    <div class="form-group">
+        <div class="text-center">
+            <label>New Office</label>
+        </div>
+        <select asp-for="NewOfficeId" class="form-control form-control-sm border border-dark">
+            @foreach (var office in Model.CompanyOffices)
+            {
+                <option value="@office.Id">@office.Address</option>
+            }
+        </select>
+    </div>
+    <hr class="hr-style" />
+    <div class="col-12 text-center">
+        <button type="submit" class="btn btn-dark">Create Company</button>
+    </div>
+</form>

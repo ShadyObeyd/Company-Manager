@@ -2,9 +2,11 @@
 using CompanyManager.Models.DomainModels;
 using CompanyManager.Models.InputModels.Employees;
 using CompanyManager.Models.ViewModels.Employees;
+using CompanyManager.Models.ViewModels.Offices;
 using CompanyManager.Services.Results;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CompanyManager.Services
@@ -23,12 +25,17 @@ namespace CompanyManager.Services
         private const string EmployeeEditModelCreatedMessage = "Employee edit model was created.";
         private const string EmployeeUpdatedMessage = "Employee was updated.";
         private const string EmployeeDeletedMessage = "Employee was deleted.";
+        private const string EmployeeRelocateModelCreatedMessage = "Employee relocate moded was created.";
 
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IOfficeRepository officeRepository;
+        private readonly ICompanyRepository companyRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IOfficeRepository officeRepository, ICompanyRepository companyRepository)
         {
             this.employeeRepository = employeeRepository;
+            this.officeRepository = officeRepository;
+            this.companyRepository = companyRepository;
         }
 
         public ResultData<EmployeeInputModel> CreateEmployeeInputModel(int officeId)
@@ -160,6 +167,47 @@ namespace CompanyManager.Services
             await this.employeeRepository.DeleteEmployee(employee);
 
             return new ResultData<int>(EmployeeDeletedMessage, true, officeId);
+        }
+
+        public async Task<ResultData<EmployeeRelocateModel>> CreateRelocateModel(int id)
+        {
+            if (id == 0)
+            {
+                return new ResultData<EmployeeRelocateModel>(EmployeeNotFoundMessage, false, null);
+            }
+
+            Employee employee = await this.employeeRepository.GetEmployeeById(id);
+            Office office = await this.officeRepository.GetOfficeById(employee.OfficeId);
+            Company company = await this.companyRepository.GetCompanyWithOfficesById(office.CompanyId);
+
+            EmployeeRelocateModel model = new EmployeeRelocateModel
+            {
+                Id = employee.Id,
+                FullName = $"{employee.FirstName} {employee.LastName}",
+                CompanyOffices = company.Offices.Select(o => new RelocateEmployeeOfficeModel
+                {
+                    Id = o.Id,
+                    Address = $"{o.StreetNumber} {o.Street}, {o.City}, {o.Country}"
+                })
+            };
+
+            return new ResultData<EmployeeRelocateModel>(EmployeeRelocateModelCreatedMessage, true, model);
+        }
+
+        public async Task<ResultData<Employee>> RelocateEmployee(EmployeeRelocateModel inputModel)
+        {
+            if (inputModel.NewOfficeId == 0)
+            {
+                return new ResultData<Employee>(OfficeNotFoundMessage, false, null);
+            }
+
+            Employee employee = await this.employeeRepository.GetEmployeeById(inputModel.Id);
+
+            employee.OfficeId = inputModel.NewOfficeId;
+
+            await this.employeeRepository.EditEmployee(employee);
+
+            return new ResultData<Employee>(EmployeeUpdatedMessage, true, employee);
         }
     }
 }

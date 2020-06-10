@@ -101,5 +101,36 @@ namespace CompanyManager.App.Controllers
 
             return this.RedirectToAction("Details", "Offices", new { id = result.Data });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Relocate(int id)
+        {
+            var result = await this.employeeService.CreateRelocateModel(id);
+
+            if (!result.Success)
+            {
+                return this.View("NotFound");
+            }
+
+            return this.View(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Relocate(EmployeeRelocateModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var result = await this.employeeService.RelocateEmployee(inputModel);
+
+            if (!result.Success)
+            {
+                return this.View(inputModel);
+            }
+
+            return this.RedirectToAction("Details", "Offices", new { id = result.Data.OfficeId });
+        }
     }
 }
